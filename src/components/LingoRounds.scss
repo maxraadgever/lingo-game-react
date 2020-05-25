@@ -1,0 +1,20 @@
+
+
+.feedbackList {
+
+  margin: 20px;
+
+  .CORRECT {
+    background-color: forestgreen;
+    color: white;
+  }
+
+  .WRONG_PLACE {
+    background-color: yellow;
+  }
+
+  .NOT_IN_WORD {
+    background-color: darkred;
+    color: white;
+  }
+}
