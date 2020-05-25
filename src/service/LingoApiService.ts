@@ -2,7 +2,7 @@ import {GameState} from "../model/GameState";
 
 class LingoApiService {
 
-  BASE_URL: string = "http://localhost:8081/api/game"
+  BASE_URL: string = process.env.NODE_ENV;
 
   startGame(): Promise<GameState> {
     return new Promise(resolve => {
