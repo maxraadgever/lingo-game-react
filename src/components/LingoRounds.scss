@@ -1,8 +1,6 @@
-
-
 .feedbackList {
-
-  margin: 20px;
+  padding-top: 20px;
+  justify-content: center;
 
   .CORRECT {
     background-color: forestgreen;
@@ -16,5 +14,10 @@
   .NOT_IN_WORD {
     background-color: darkred;
     color: white;
+  }
+
+  .feedbackCharacter {
+    margin: 5px;
+    border-radius: 10px;
   }
 }

@@ -1,7 +1,21 @@
-
-
 .lingoInput {
-
   margin: 20px;
+  justify-content: center;
+}
 
+.progress {
+  padding: 20px;
+
+  .background {
+    width: 100%;
+    background-color: lightgray;
+    height: 5px;
+  }
+  .bar {
+    position: relative;
+    width: 10px;
+    background-color: red;
+    height: 5px;
+    top: -5px;
+  }
 }

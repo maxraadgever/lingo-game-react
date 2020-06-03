@@ -1,18 +1,17 @@
-import React, {Component} from 'react';
-import {Button, Container, Grid} from "@material-ui/core";
+import React, { Component } from "react";
+import { Button, Container, Grid } from "@material-ui/core";
 import LingoInput from "./components/LingoInput";
 import LingoRounds from "./components/LingoRounds";
 import LingoApiService from "./service/LingoApiService";
-import {GameState} from "./model/GameState";
+import { GameState } from "./model/GameState";
 import "./App.scss";
 
 interface AppState {
-  gameState?: GameState
-  error: string
+  gameState?: GameState;
+  error: string;
 }
 
 class App extends Component<any, AppState> {
-
   lingoApiService: LingoApiService;
 
   constructor(props: any) {
@@ -20,53 +19,60 @@ class App extends Component<any, AppState> {
     this.lingoApiService = new LingoApiService();
     this.state = {
       gameState: undefined,
-      error: ""
-    }
+      error: "",
+    };
   }
 
   handleNewGame = () => {
     this.lingoApiService.startGame().then((gameState: GameState) => {
-      this.setState({gameState});
+      this.setState({ gameState });
       console.log(gameState);
     });
-  }
+  };
 
   handleDoGuess = (inputWord: string) => {
     if (this.state.gameState != undefined) {
       const gameState = this.state.gameState;
 
-      this.lingoApiService.doGuess(gameState.gameId, inputWord)
+      this.lingoApiService
+        .doGuess(gameState.gameId, inputWord)
         .then((gameState: GameState) => {
-          this.setState({gameState, error: ""});
+          this.setState({ gameState, error: "" });
           console.log(gameState);
-        }).catch((reason: any) => {
-        this.setState({error: "Invalid input for " + reason})
-
-      });
-
+        })
+        .catch((reason: any) => {
+          this.setState({ error: "Invalid input for " + reason });
+        });
     }
-  }
+  };
 
   gameIsStarted = (): boolean => {
-    return (this.state.gameState != undefined && this.state.gameState.gameId > 0);
-  }
+    return this.state.gameState != undefined && this.state.gameState.gameId > 0;
+  };
 
   render() {
-
     let lingoGame: any = "";
-    const isFinished: boolean = this.state.gameState !== undefined && this.state.gameState.finished === true;
+    const isFinished: boolean =
+      this.state.gameState !== undefined &&
+      this.state.gameState.finished === true;
 
     if (this.gameIsStarted()) {
       lingoGame = (
         <Grid container spacing={3}>
           <Grid item xs={12} className={"progressText"}>
-            {this.state.gameState?.progress}
+            <h2>{this.state.gameState?.progress}</h2>
           </Grid>
           <Grid item xs={12}>
-            <LingoInput handleDoGuess={this.handleDoGuess} isFinished={isFinished} />
+            <LingoInput
+              handleDoGuess={this.handleDoGuess}
+              isFinished={isFinished}
+              gameId={this.state.gameState ? this.state.gameState.gameId : 0}
+            />
           </Grid>
-          <Grid item xs={12}>
-            <LingoRounds rounds={this.state.gameState ? this.state.gameState.rounds : []}/>
+          <Grid item xs={12} className={"center"}>
+            <LingoRounds
+              rounds={this.state.gameState ? this.state.gameState.rounds : []}
+            />
           </Grid>
         </Grid>
       );
@@ -75,11 +81,19 @@ class App extends Component<any, AppState> {
     return (
       <Container maxWidth="sm">
         <Grid container spacing={3}>
-          <Grid item xs={12}>Lingogame!</Grid>
-          <Grid item xs={12}>
-            <Button variant="contained" color="primary" onClick={this.handleNewGame}>
-              Nieuwe lingo!
+          <Grid item xs={12} className="center">
+            <h1>LINGO</h1>
+          </Grid>
+          <Grid item xs={12} className="center">
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={this.handleNewGame}
+            >
+              Start nieuw spel
             </Button>
+          </Grid>
+          <Grid item xs={12} className="center error">
             {this.state.error}
           </Grid>
           <Grid item xs={12}>
