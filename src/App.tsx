@@ -5,6 +5,7 @@ import LingoRounds from "./components/LingoRounds";
 import LingoApiService from "./service/LingoApiService";
 import { GameState } from "./model/GameState";
 import "./App.scss";
+import HighScoreView from "./components/HighScoreView";
 
 interface AppState {
   gameState?: GameState;
@@ -57,25 +58,37 @@ class App extends Component<any, AppState> {
       this.state.gameState.finished === true;
 
     if (this.gameIsStarted()) {
-      lingoGame = (
-        <Grid container spacing={3}>
-          <Grid item xs={12} className={"progressText"}>
-            <h2>{this.state.gameState?.progress}</h2>
+      const { gameState } = this.state;
+      if (gameState) {
+        lingoGame = (
+          <Grid container spacing={3}>
+            <Grid item xs={12} className={"progressText"}>
+              <h2>{gameState.progress}</h2>
+            </Grid>
+            {gameState.won ? (
+              ""
+            ) : (
+              <Grid item xs={12}>
+                <LingoInput
+                  handleDoGuess={this.handleDoGuess}
+                  isFinished={isFinished}
+                  gameId={gameState.gameId}
+                />
+              </Grid>
+            )}
+            {gameState.won ? (
+              ""
+            ) : (
+              <Grid item xs={12} className={"center"}>
+                <LingoRounds rounds={gameState.rounds} />
+              </Grid>
+            )}
+            <Grid item xs={12} className={"center"}>
+              {gameState.won ? <HighScoreView gameId={gameState.gameId} /> : ""}
+            </Grid>
           </Grid>
-          <Grid item xs={12}>
-            <LingoInput
-              handleDoGuess={this.handleDoGuess}
-              isFinished={isFinished}
-              gameId={this.state.gameState ? this.state.gameState.gameId : 0}
-            />
-          </Grid>
-          <Grid item xs={12} className={"center"}>
-            <LingoRounds
-              rounds={this.state.gameState ? this.state.gameState.rounds : []}
-            />
-          </Grid>
-        </Grid>
-      );
+        );
+      }
     }
 
     return (

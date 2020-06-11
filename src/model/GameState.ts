@@ -1,9 +1,9 @@
-import {Round} from "./Round";
-
+import { Round } from "./Round";
 
 export interface GameState {
-  gameId: number,
-  progress: string,
-  rounds: Array<Round>
-  finished: boolean
+  gameId: number;
+  progress: string;
+  rounds: Array<Round>;
+  finished: boolean;
+  won: boolean;
 }

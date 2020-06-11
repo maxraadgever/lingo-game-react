@@ -62,6 +62,7 @@ class LingoInput extends Component<Props, State> {
 
   render() {
     const progress = 10 * this.state.time;
+    const { isFinished } = this.props;
 
     return (
       <form
@@ -75,7 +76,7 @@ class LingoInput extends Component<Props, State> {
               id={"inputWord"}
               label={"Lingo woord"}
               onChange={this.handleWordChange}
-              disabled={this.props.isFinished || progress >= 99}
+              disabled={isFinished || progress >= 99}
             />
           </Grid>
           <Grid item xs={4} style={{ textAlign: "center" }}>
@@ -83,14 +84,17 @@ class LingoInput extends Component<Props, State> {
               variant="contained"
               color="primary"
               onClick={this.handleSubmit}
-              disabled={this.props.isFinished || progress >= 99}
+              disabled={isFinished || progress >= 99}
             >
               Submit!
             </Button>
           </Grid>
           <Grid item xs={12} className="progress">
             <div className="background" />
-            <div className="bar" style={{ width: `${progress}%` }} />
+            <div
+              className="bar"
+              style={{ width: `${isFinished ? 0 : progress}%` }}
+            />
           </Grid>
         </Grid>
       </form>
